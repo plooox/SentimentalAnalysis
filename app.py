@@ -64,38 +64,31 @@ def setData(option):
         num_keysents=10,
         verbose=False
     )
-    topFive = list(keywords.keys())[:5]
-    topFiveKeywords = pd.DataFrame(topFive, index={'Top1','Top2','Top3','Top4','Top5'})
-
-    # dataList = np.array([personalData['positive'].tolist(), personalData['negative'].tolist()]).transpose()
-    # res_data = pd.DataFrame(
-    #     dataList, index=personalData['date'].tolist(), columns=['pos', 'neg'])
-    totalLabel = 'positive','negative'
-    totalSize = [totalPos, totalNeg]
+    keywords = list(keywords.keys())[:7]
+    totalLabel = 'negative','positive'
+    totalSize = [totalNeg, totalPos]
     pieFig, pieAxis = plt.subplots()
     pieAxis.pie(totalSize, labels=totalLabel, startangle=90)
     pieAxis.axis('equal')
 
-    return topFive, pieFig, resData
+    return keywords, pieFig, resData
+
+st.header("Sentimental Analysis")
+keywordList = pd.read_csv("./keywordList.csv")
 
 option = st.text_input("Enter the keyword")
-plist = ['손흥민','이강인','황의조','페이커']
+plist = keywordList['name'].values.tolist()
 
 if option :
     if option in plist:
-        topFive, pieFig, resData = setData(option)
+        keywords, pieFig, resData = setData(option)
 
         col1, col2 = st.columns(2)
         st.subheader("Trends about "+option)
         with col1:
-            st.subheader("Top 5 Keywords")
-            for keyword in topFive:
-                st.markdown("- "+keyword+"\n")
-                # st.text(keyword)
-                # if st.button(keyword):
-                #     option = keyword
-                #     topFive, pieFig, resData = setData(option)
-
+            st.subheader("Keywords")
+            for keyword in keywords:
+                st.markdown('- '+keyword)
         with col2:
             st.subheader("Total")
             st.pyplot(pieFig)
@@ -104,6 +97,11 @@ if option :
         st.subheader("아직 분석 결과가 제공되지 않습니다.")
         btn = st.empty()
         if btn.button("분석 요청"):
+            requestData = set()
+            with open("./request.pkl", 'rb') as file:
+                requestData = pickle.load(file)
+            requestData.add(option)
+            with open("./request.pkl", 'wb') as file:
+                pickle.dump(requestData,file)
             btn.text("submit!")
-else:
-    st.header("Sentimental Analysis")
+            
