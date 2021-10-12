@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from krwordrank.sentence import summarize_with_sentences
 import pickle
 
-# @st.cache
+@st.cache
 def load_data(option):
     data = pd.read_csv("./data/"+option+".csv")
     return data
@@ -90,15 +90,20 @@ if option :
         with col1:
             st.subheader("Top 5 Keywords")
             for keyword in topFive:
-                if st.button(keyword):
-                    option = keyword
-                    topFive, pieFig, resData = setData(option)
+                st.markdown("- "+keyword+"\n")
+                # st.text(keyword)
+                # if st.button(keyword):
+                #     option = keyword
+                #     topFive, pieFig, resData = setData(option)
 
         with col2:
             st.subheader("Total")
             st.pyplot(pieFig)
         st.line_chart(resData)
     else:
-        st.write("No data :<")
+        st.subheader("아직 분석 결과가 제공되지 않습니다.")
+        btn = st.empty()
+        if btn.button("분석 요청"):
+            btn.text("submit!")
 else:
-    st.header("Hello World!")
+    st.header("Sentimental Analysis")
