@@ -5,6 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from krwordrank.sentence import summarize_with_sentences
 import pickle
+from PIL import Image
 
 @st.cache
 def load_data(option):
@@ -49,7 +50,7 @@ def setData(option):
     newData = newData.set_index('date')
     resData = newData.drop(['0000-00'])
 
-    with open("./data/"+option+".pkl", 'rb') as file:
+    with open("./data/keywords/"+option+".pkl", 'rb') as file:
         twContent = pickle.load(file)
 
     penalty = lambda x:0 if (25 <= len(x) <= 80) else 1
@@ -84,7 +85,6 @@ if option :
         keywords, pieFig, resData = setData(option)
 
         col1, col2 = st.columns(2)
-        st.subheader("Trends about "+option)
         with col1:
             st.subheader("Keywords")
             for keyword in keywords:
@@ -92,6 +92,7 @@ if option :
         with col2:
             st.subheader("Total")
             st.pyplot(pieFig)
+        st.subheader("Trends about "+option)
         st.line_chart(resData)
     else:
         st.subheader("아직 분석 결과가 제공되지 않습니다.")
@@ -104,4 +105,13 @@ if option :
             with open("./request.pkl", 'wb') as file:
                 pickle.dump(requestData,file)
             btn.text("submit!")
-            
+else:
+    col1, col2 = st.columns(2)
+    c1Image = Image.open('./test.png')
+    c2Image = Image.open('./test2.png')
+    with col1:
+        st.subheader("키워드를 검색하세요")
+        st.image(c1Image)
+    with col2:
+        st.subheader("분석결과")
+        st.image(c2Image)
