@@ -9,3 +9,5 @@
 - 감정분석: [pororo](https://github.com/kakaobrain/pororo)
 - 명사 코퍼스(for 키워드): kkma
 - 키워드 추출: [KR-WordRank](https://github.com/lovit/KR-WordRank)
+
+[상세 ](https://plooox.github.io/sentimental_analysis_project/)
