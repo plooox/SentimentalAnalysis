@@ -10,4 +10,4 @@
 - 명사 코퍼스(for 키워드): kkma
 - 키워드 추출: [KR-WordRank](https://github.com/lovit/KR-WordRank)
 
-[상세 ](https://plooox.github.io/sentimental_analysis_project/)
+[상세설명](https://plooox.github.io/sentimental_analysis_project/)
